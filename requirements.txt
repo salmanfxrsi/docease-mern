@@ -4,8 +4,8 @@ Requirements Document for Doctor Appointment Website (MERN Stack)
 The Doctor Appointment Website aims to provide an online platform where patients can book appointments with doctors, and doctors can manage their schedules. This system will be built using the MERN (MongoDB, Express.js, React.js, Node.js) stack.
 
 - Must be responsive
-- Use logo and color eye-catching like - {white, blue, green, red, yellow, or orange.}
-- Color should be medical-related
+- Use logo and color eye-catching like - {white, blue, green, red, yellow, or orange.} ✅
+- Color should be medical-related ✅
 
 2. Features & Functionalities
 
