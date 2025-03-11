@@ -1,0 +1,88 @@
+Requirements Document for Doctor Appointment Website (MERN Stack)
+
+1. Introduction
+The Doctor Appointment Website aims to provide an online platform where patients can book appointments with doctors, and doctors can manage their schedules. This system will be built using the MERN (MongoDB, Express.js, React.js, Node.js) stack.
+
+- Must be responsive
+- Use logo and color eye-catching like - {white, blue, green, red, yellow, or orange.}
+- Color should be medical-related
+
+2. Features & Functionalities
+
+2.1 User Roles
+1. Patient
+2. Doctor
+3. Admin
+
+2.2 Patient Features
+- User authentication (Sign up/Login using email, Google, etc.)
+- Browse and search for doctors by specialty, location, or availability
+- Book an appointment with available doctors
+- View appointment history and upcoming bookings
+- Cancel or reschedule appointments
+- Provide ratings and reviews for doctors
+- Receive email notifications for confirmed and upcoming appointments
+
+2.3 Doctor Features
+- User authentication (Sign up/Login)
+- Profile management (name, specialty, availability, experience, etc.)
+- Approve or reject appointment requests
+- View patient details and appointment history
+- Set availability and manage schedules
+- Receive notifications for new appointments or cancellations
+
+2.4 Admin Features
+- Manage users (patients and doctors)
+- Approve doctor registrations
+- Monitor appointments and system analytics
+- Generate reports on bookings and system performance
+- Manage complaints and feedback
+
+3. Technology Stack
+
+| Component      | Technology                        |
+|----------------|-----------------------------------|
+| Frontend       | React.js, Tailwind CSS/Material UI|
+| Backend        | Node.js, Express.js               |
+| Database       | MongoDB                           |
+| Authentication | Firebase/Auth0/Custom JWT         |
+| Notifications  | Twilio/Email API (Nodemailer)     |
+| Deployment     | Vercel, MongoDB                   |
+
+4. System Flow
+1. Users register and log in.
+2. Patients search for doctors and book an appointment.
+3. Doctors manage their schedules and confirm appointments.
+4. Admin oversees system operations and user activities.
+
+5. API Endpoints
+
+5.1 Authentication
+- POST /api/auth/register - Register a new user
+- POST /api/auth/login - User login
+- POST /api/auth/logout - User logout
+
+5.2 Patient Routes
+- GET /api/doctors - Get list of available doctors
+- POST /api/appointments - Book an appointment
+- GET /api/appointments - View appointments
+- PUT /api/appointments/:id - Cancel or reschedule an appointment
+
+5.3 Doctor Routes
+- GET /api/appointments - View all appointments
+- PUT /api/appointments/:id/status - Approve/Reject appointment
+
+5.4 Admin Routes
+- GET /api/users - Manage users
+- GET /api/reports - View system analytics
+
+6. Non-Functional Requirements
+- Security: Use JWT authentication for secure user sessions.
+- Performance: Optimize database queries for quick responses.
+- Reliability: Ensure minimal downtime with proper monitoring.
+
+7. Conclusion
+This project will provide a seamless and efficient online doctor appointment booking system.
+
+SUBMIT FINAL DATE - 17 March 2025
+
