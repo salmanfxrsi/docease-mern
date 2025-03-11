@@ -1,10 +1,9 @@
 import React from "react";
-import logo from '../../assets/shared/logo.png'
+import logo from "../../assets/shared/logo.png";
 import { Link, NavLink } from "react-router";
 
 const Navbar = () => {
-  const routes = <>
-  </>
+  const routes = <></>;
 
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -35,18 +34,20 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex items-center">
-            <img className="w-12 h-12" src={logo} alt="" />
-            <h1 className="text-2xl uppercase font-black">Doc<span className="text-[#4BBDD7]">Ease</span></h1>
+          <img className="w-12 h-12" src={logo} alt="" />
+          <h1 className="text-2xl uppercase font-black">
+            Doc<span className="text-teal-600">Ease</span>
+          </h1>
         </div>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <div className="menu menu-horizontal px-1">
-          {routes}
-        </div>
+        <div className="menu menu-horizontal px-1">{routes}</div>
       </div>
       <button className="navbar-end">
         <div>
-          <Link className="bg-[#4BBDD7] px-5 py-1.5 text-white text-lg uppercase font-medium rounded-sm">Login</Link>
+          <Link className="bg-teal-600 px-5 py-1.5 text-white text-lg uppercase font-medium rounded-sm">
+            Login
+          </Link>
         </div>
       </button>
     </div>
