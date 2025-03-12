@@ -12,6 +12,9 @@ const Navbar = () => {
       <NavLink to="/doctors" className="font-medium">
         Doctors
       </NavLink>
+      <NavLink to="/doctor-registration" className="font-medium">
+        Doctor Registration
+      </NavLink>
     </>
   );
 
