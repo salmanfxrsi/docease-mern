@@ -30,7 +30,7 @@ const Register = () => {
   };
 
   return (
-    <section className="bg-white lg:py-24 lg:container   lg:mx-auto">
+    <section className="bg-white lg:py-24 lg:container lg:mx-auto">
       <div className="lg:grid lg:grid-cols-12">
         {/* Left Section */}
         <section className="relative flex h-32 items-end bg-teal-600 lg:col-span-5 lg:h-full xl:col-span-6">

@@ -45,7 +45,7 @@ const Navbar = () => {
       </div>
       <button className="navbar-end">
         <div className="flex gap-4">
-          <Link className="bg-teal-600 px-5 py-1.5 text-white text-lg uppercase font-medium rounded-sm">
+          <Link to='login' className="bg-teal-600 px-5 py-1.5 text-white text-lg uppercase font-medium rounded-sm">
             Login
           </Link>
           <Link to='register' className="bg-teal-600 px-5 py-1.5 text-white text-lg uppercase font-medium rounded-sm">
