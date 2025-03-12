@@ -44,9 +44,12 @@ const Navbar = () => {
         <div className="menu menu-horizontal px-1">{routes}</div>
       </div>
       <button className="navbar-end">
-        <div>
+        <div className="flex gap-4">
           <Link className="bg-teal-600 px-5 py-1.5 text-white text-lg uppercase font-medium rounded-sm">
             Login
+          </Link>
+          <Link to='register' className="bg-teal-600 px-5 py-1.5 text-white text-lg uppercase font-medium rounded-sm">
+            Register
           </Link>
         </div>
       </button>
