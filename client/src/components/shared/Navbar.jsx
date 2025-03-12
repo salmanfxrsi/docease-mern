@@ -1,9 +1,21 @@
 import React from "react";
 import logo from "../../assets/shared/logo.png";
 import { Link, NavLink } from "react-router";
+import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
-  const routes = <></>;
+  const routes = (
+    <>
+      <NavLink to="/" className="font-medium">
+        Home
+      </NavLink>
+      <NavLink to="/doctors" className="font-medium">
+        Doctors
+      </NavLink>
+    </>
+  );
+
+  const { user, signOut } = useAuth();
 
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -41,18 +53,48 @@ const Navbar = () => {
         </div>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <div className="menu menu-horizontal px-1">{routes}</div>
+        <div className="menu menu-horizontal px-1 flex gap-4">{routes}</div>
       </div>
-      <button className="navbar-end">
+      <div className="navbar-end">
         <div className="flex gap-4">
-          <Link to='login' className="bg-teal-600 px-5 py-1.5 text-white text-lg uppercase font-medium rounded-sm">
-            Login
-          </Link>
-          <Link to='register' className="bg-teal-600 px-5 py-1.5 text-white text-lg uppercase font-medium rounded-sm">
-            Register
-          </Link>
+          {user ? (
+            <>
+              <Link to="dashboard" className="avatar avatar-online">
+                <div className="w-10 rounded-full">
+                  <img
+                    src={
+                      user.photoURL
+                        ? user.photoURL
+                        : "https://i.ibb.co.com/p69k0Xft/3d-cartoon-style-character-23-2151034122.jpg"
+                    }
+                  />
+                </div>
+              </Link>
+              <button
+                onClick={signOut}
+                className="bg-red-500 px-5 py-1 text-white text-sm uppercase font-medium rounded-sm"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="login"
+                className="bg-teal-600 px-6 py-1 text-white text-sm uppercase font-medium rounded-sm"
+              >
+                Login
+              </Link>
+              <Link
+                to="register"
+                className="bg-teal-600 px-5 py-1 text-white text-sm uppercase font-medium rounded-sm"
+              >
+                Register
+              </Link>
+            </>
+          )}
         </div>
-      </button>
+      </div>
     </div>
   );
 };
