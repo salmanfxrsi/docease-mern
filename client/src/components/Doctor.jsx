@@ -1,11 +1,11 @@
 import { Link } from "react-router";
 
 const Doctor = ({ doctor }) => {
-  const { id, name, image, availability, specialty, location, time } = doctor;
+  const { _id, name, image, availability, specialty, location, time } = doctor;
 
   return (
     <Link
-      to={`/doctor/${id}`}
+      to={`/doctor/${_id}`}
       className="flex flex-row items-stretch gap-4 shadow-sm py-4 rounded-lg hover:shadow-xl duration-300"
     >
       {/* Doctor Image */}
@@ -27,14 +27,12 @@ const Doctor = ({ doctor }) => {
           {/* Availability Badge */}
           <div
             className={`inline-flex items-center justify-center rounded-full border px-2.5 py-0.5 ${
-              availability
+              availability === "Available"
                 ? "text-teal-700 border-teal-500"
                 : "text-red-500 border-red-500"
             }`}
           >
-            <p className="whitespace-nowrap text-sm">
-              {availability ? "Available" : "Unavailable"}
-            </p>
+            <p className="whitespace-nowrap text-sm">{availability}</p>
           </div>
 
           {/* Specialty Badge */}

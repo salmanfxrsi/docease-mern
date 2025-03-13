@@ -28,9 +28,17 @@ async function run() {
     // Get all doctors
     app.get("/doctors", async (req, res) => {
       try {
-        const doctors = await doctorCollection
-          .find({ status: "accepted" })
-          .toArray();
+        const { specialty, availability, search } = req.query;
+
+        const query = { status: "accepted" };
+
+        if (specialty) query.specialty = specialty;
+        if (availability) query.availability = availability;
+        if (search) {
+          query.location = { $regex: search, $options: "i" };
+        }
+
+        const doctors = await doctorCollection.find(query).toArray();
         res.status(200).json(doctors);
       } catch (error) {
         res
