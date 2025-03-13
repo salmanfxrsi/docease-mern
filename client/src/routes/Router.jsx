@@ -5,6 +5,7 @@ import Home from "../pages/home/Home";
 import Register from "../pages/authentication/Register";
 import Login from "../pages/authentication/Login";
 import Doctors from "../pages/doctors/Doctors";
+import DoctorDetails from "../pages/doctor details/DoctorDetails";
 
 const Router = () => {
   return (
@@ -14,6 +15,7 @@ const Router = () => {
 
         {/* Common Routes */}
         <Route path="doctors" element={<Doctors />} />
+        <Route path="doctors/:id" element={<DoctorDetails />} />
 
         {/* Auth Routes */}
         <Route path="/register" element={<Register />} />

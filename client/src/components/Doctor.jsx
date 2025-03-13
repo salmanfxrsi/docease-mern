@@ -5,7 +5,7 @@ const Doctor = ({ doctor }) => {
 
   return (
     <Link
-      to={`/doctor/${_id}`}
+      to={`/doctors/${_id}`}
       className="flex flex-row items-stretch gap-4 shadow-sm py-4 rounded-lg hover:shadow-xl duration-300"
     >
       {/* Doctor Image */}
