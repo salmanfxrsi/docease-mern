@@ -1,4 +1,5 @@
 import Banner from "./sections/Banner";
+import FAQ from "./sections/FAQ";
 import OurService from "./sections/OurService";
 import RegisterForDoctor from "./sections/RegisterForDoctor";
 
@@ -10,14 +11,19 @@ const Home = () => {
         <Banner />
       </section>
 
-      {/* Banner Section */}
+      {/* Our Service Section */}
       <section className="container mx-auto py-24">
         <OurService />
       </section>
 
-      {/* Banner Section */}
+      {/* Register For Doctor Section */}
       <section className="container mx-auto">
         <RegisterForDoctor />
+      </section>
+
+      {/* FAQ Section */}
+      <section className="container mx-auto py-24">
+        <FAQ />
       </section>
     </>
   );
