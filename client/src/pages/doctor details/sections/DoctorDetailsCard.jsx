@@ -13,8 +13,8 @@ const DoctorDetailsCard = ({ doctor }) => {
           <h3 className="text-lg font-bold text-gray-900 sm:text-xl">
             {doctor?.name}
           </h3>
-          <div className="badge">{doctor?.specialty}</div>
-          <div className="badge">Rating: {doctor?.rating}</div>
+          <div className="badge border-teal-600 text-teal-600">{doctor?.specialty}</div>
+          <div className="badge border-teal-600 text-teal-600">Rating: {doctor?.rating}</div>
         </div>
         <img
           alt="Doctor"
