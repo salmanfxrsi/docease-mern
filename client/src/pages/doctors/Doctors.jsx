@@ -53,7 +53,7 @@ const Doctors = () => {
   return (
     <div className="w-11/12 mx-auto py-24">
       {/* Search and Sort Functionality */}
-      <div className="mb-16 lg:flex justify-between items-center">
+      <div className="mb-16 flex flex-col lg:flex-row justify-between items-center gap-4">
         {/* Search Bar */}
         <div className="flex items-center border-2 lg:w-[500px] rounded-lg p-1">
           <FaSearch className="text-gray-600 mx-3 text-xl" />
@@ -67,7 +67,7 @@ const Doctors = () => {
         </div>
 
         {/* Specialty Filter & Buttons */}
-        <div className="flex gap-3 justify-center">
+        <div className="flex gap-3 justify-center flex-wrap">
           {/* Specialty Dropdown */}
           <select
             className="bg-teal-600 text-white px-6 py-2 rounded-sm cursor-pointer"
@@ -96,7 +96,7 @@ const Doctors = () => {
           {/* Reset Button */}
           <button
             onClick={handleReset}
-            className="bg-teal-600 text-white px-8 rounded-sm cursor-pointer"
+            className="bg-teal-600 text-white px-8 rounded-sm cursor-pointer py-2"
           >
             Reset
           </button>
