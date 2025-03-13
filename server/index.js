@@ -23,8 +23,35 @@ const client = new MongoClient(uri, {
 
 async function run() {
   const doctorCollection = client.db("docease").collection("doctors");
+  const userCollection = client.db("docease").collection("users");
 
   try {
+    // Post users
+    app.post("/users", async (req, res) => {
+      try {
+        const { email, ...userData } = req.body;
+
+        // Check if the user already exists
+        const existingUser = await userCollection.findOne({ email });
+
+        if (existingUser) {
+          return res.json(existingUser);
+        }
+
+        // Insert new user
+        const result = await userCollection.insertOne({
+          email,
+          ...userData,
+          timestamp: Date.now(),
+        });
+
+        res.json(result);
+      } catch (error) {
+        console.error("Error adding user:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    });
+
     // Get all doctors
     app.get("/doctors", async (req, res) => {
       try {

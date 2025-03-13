@@ -5,7 +5,7 @@ const RegisterForDoctor = () => {
     <div className="grid grid-cols-1 lg:grid-cols-2 rounded-md">
       <img
         alt="doctors image"
-        src="https://i.ibb.co.com/LzXCtBT5/successful-medical-team-329181-9252.jpg"
+        src="https://i.ibb.co.com/B5NqpMCG/portrait-smiling-young-doctors-standing-together-portrait-medical-staff-inside-modern-hospital-smili.jpg"
         className="w-full h-full rounded-t-md lg:rounded-l-md"
       />
 
