@@ -24,6 +24,7 @@ const client = new MongoClient(uri, {
 async function run() {
   const doctorCollection = client.db("docease").collection("doctors");
   const userCollection = client.db("docease").collection("users");
+  const appointmentCollection = client.db("docease").collection("appointments");
 
   try {
     // Post users
@@ -52,8 +53,8 @@ async function run() {
       }
     });
 
-    // Get specific user role by email
-    app.get("/users/role/:email", async (req, res) => {
+    // Get specific user by email
+    app.get("/users/:email", async (req, res) => {
       try {
         const email = req.params.email;
         if (!email) {
@@ -70,12 +71,33 @@ async function run() {
             .json({ success: false, message: "User not found" });
         }
 
-        res.json({ success: true, role: user.role });
+        res.json({ success: true, user: user });
       } catch (error) {
         console.error("Error fetching user role:", error);
         res
           .status(500)
           .json({ success: false, message: "Internal server error" });
+      }
+    });
+
+    // Post appointment
+    app.post("/appointments", async (req, res) => {
+      try {
+        const appointment = req.body;
+        const result = await appointmentCollection.insertOne(appointment);
+
+        res.status(201).json({
+          success: true,
+          message: "Appointment created successfully!",
+          data: result,
+        });
+      } catch (error) {
+        console.error("Error creating appointment:", error);
+        res.status(500).json({
+          success: false,
+          message: "Internal server error",
+          error: error.message,
+        });
       }
     });
 
