@@ -52,6 +52,33 @@ async function run() {
       }
     });
 
+    // Get specific user role by email
+    app.get("/users/role/:email", async (req, res) => {
+      try {
+        const email = req.params.email;
+        if (!email) {
+          return res
+            .status(400)
+            .json({ success: false, message: "Email is required" });
+        }
+
+        const user = await userCollection.findOne({ email });
+
+        if (!user) {
+          return res
+            .status(404)
+            .json({ success: false, message: "User not found" });
+        }
+
+        res.json({ success: true, role: user.role });
+      } catch (error) {
+        console.error("Error fetching user role:", error);
+        res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
+      }
+    });
+
     // Get all doctors
     app.get("/doctors", async (req, res) => {
       try {
