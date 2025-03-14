@@ -6,7 +6,7 @@ const MainLayout = () => {
   return (
     <>
       {/* Navbar */}
-      <nav>
+      <nav className="bg-base-100 shadow-sm z-50 sticky top-0">
         <Navbar />
       </nav>
 

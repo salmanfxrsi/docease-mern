@@ -2,8 +2,12 @@ import React from "react";
 import logo from "../../assets/shared/logo.png";
 import { Link, NavLink } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import { IoIosArrowDropdown } from "react-icons/io";
+import useUser from "../../hooks/useUser";
 
 const Navbar = () => {
+  const [, data] = useUser();
+
   const routes = (
     <>
       <NavLink to="/" className="font-medium">
@@ -15,13 +19,40 @@ const Navbar = () => {
       <NavLink to="/doctor-registration" className="font-medium">
         Doctor Registration
       </NavLink>
+
+      {data?.role === "user" && (
+        <>
+          <NavLink to="/appointment-history" className="font-medium">
+            Appointment History
+          </NavLink>
+          <NavLink to="/upcoming-booking" className="font-medium">
+            Upcoming Booking
+          </NavLink>
+        </>
+      )}
+    </>
+  );
+
+  const privateRoutes = (
+    <>
+      {/* User Routes */}
+      {data?.role === "user" && (
+        <>
+          <NavLink to="/appointment-history" className="font-medium">
+            Appointment History
+          </NavLink>
+          <NavLink to="/upcoming-booking" className="font-medium">
+            Upcoming Booking
+          </NavLink>
+        </>
+      )}
     </>
   );
 
   const { user, signOut } = useAuth();
 
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className="navbar w-11/12 mx-auto">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -50,53 +81,83 @@ const Navbar = () => {
         </div>
         <div className="flex items-center">
           <img className="w-12 h-12" src={logo} alt="" />
-          <h1 className="text-2xl uppercase font-black">
+          <h1 className="text-2xl uppercase font-black hidden lg:block">
             Doc<span className="text-teal-600">Ease</span>
           </h1>
         </div>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <div className="menu menu-horizontal px-1 flex gap-4">{routes}</div>
+        <div className="menu menu-horizontal px-1 flex gap-4">
+          <NavLink to="/" className="font-medium">
+            Home
+          </NavLink>
+          <NavLink to="/doctors" className="font-medium">
+            Doctors
+          </NavLink>
+          <NavLink to="/doctor-registration" className="font-medium">
+            Doctor Registration
+          </NavLink>
+        </div>
       </div>
+
+      {/* Logo and Routes */}
       <div className="navbar-end">
-        <div className="flex gap-4">
-          {user ? (
-            <>
-              <Link to="dashboard" className="avatar avatar-online">
-                <div className="w-10 rounded-full">
-                  <img
-                    src={
-                      user.photoURL
-                        ? user.photoURL
-                        : "https://i.ibb.co.com/p69k0Xft/3d-cartoon-style-character-23-2151034122.jpg"
-                    }
-                  />
+        {user ? (
+          <div className="dropdown cursor-pointer flex">
+            <div tabIndex={0} role="button" className="hidden lg:block">
+              <div className="flex items-center gap-2">
+                {/* Avatar */}
+                <div className="avatar avatar-online">
+                  <div className="w-10 rounded-full">
+                    <img
+                      src={
+                        user.photoURL ||
+                        "https://i.ibb.co.com/p69k0Xft/3d-cartoon-style-character-23-2151034122.jpg"
+                      }
+                    />
+                  </div>
                 </div>
-              </Link>
+
+                {/* Name */}
+                <h1 className="text-xl font-medium">
+                  {user && user.displayName}
+                </h1>
+
+                {/* Arrow */}
+                <div className="text-2xl">
+                  <IoIosArrowDropdown />
+                </div>
+              </div>
+            </div>
+            <div
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 text-black rounded-box z-1 mt-16 w-52 py-2 px-6 shadow gap-2"
+            >
+              {privateRoutes}
               <button
                 onClick={signOut}
-                className="bg-red-500 px-5 py-1 text-white text-sm uppercase font-medium rounded-sm"
+                className="bg-red-500 text-white uppercase rounded-lg font-medium mt-1 mb-1"
               >
                 Logout
               </button>
-            </>
-          ) : (
-            <>
-              <Link
-                to="login"
-                className="bg-teal-600 px-6 py-1 text-white text-sm uppercase font-medium rounded-sm"
-              >
-                Login
-              </Link>
-              <Link
-                to="register"
-                className="bg-teal-600 px-5 py-1 text-white text-sm uppercase font-medium rounded-sm"
-              >
-                Register
-              </Link>
-            </>
-          )}
-        </div>
+            </div>
+          </div>
+        ) : (
+          <div className="flex gap-4">
+            <Link
+              to="login"
+              className="bg-teal-600 text-white px-6 py-1 rounded-lg uppercase font-medium"
+            >
+              Login
+            </Link>
+            <Link
+              to="register"
+              className="bg-teal-600 text-white px-6 py-1 rounded-lg uppercase font-medium"
+            >
+              Register
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
