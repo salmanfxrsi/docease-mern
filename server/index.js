@@ -151,12 +151,36 @@ async function run() {
       }
     });
 
+    // POST a doctor
+    app.post("/doctors", async (req, res) => {
+      try {
+        const doctorInfo = req.body;
+        const response = await doctorCollection.insertOne(doctorInfo);
+
+        if (response.acknowledged) {
+          return res
+            .status(201)
+            .json({
+              message: "Request send successfully",
+              doctorId: response.insertedId,
+            });
+        } else {
+          return res.status(500).json({ message: "Failed to add doctor" });
+        }
+      } catch (error) {
+        console.error("Error adding doctor:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    });
+
     // Get pending doctors
     app.get("/doctors/pending", async (req, res) => {
-      const doctors = await doctorCollection.find({ status: "pending" }).toArray();
+      const doctors = await doctorCollection
+        .find({ status: "pending" })
+        .toArray();
       res.send(doctors);
-    })
-    
+    });
+
     // Get all doctors
     app.get("/doctors", async (req, res) => {
       try {

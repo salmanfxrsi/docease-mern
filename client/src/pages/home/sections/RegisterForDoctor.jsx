@@ -1,6 +1,10 @@
+import { useState } from "react";
 import { Link } from "react-router";
+import RegisterDoctorModal from "../../../components/modals/RegisterDoctorModal";
 
 const RegisterForDoctor = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 rounded-md">
       <img
@@ -24,13 +28,17 @@ const RegisterForDoctor = () => {
           DocEase, doctors can streamline their practice, improve patient
           engagement, and enhance their professional reach.
         </p>
-        <Link
-          to="doctor-registration"
-          className="block w-full rounded-sm bg-white px-12 py-3 text-lg text-center font-bold text-teal-600 hover:opacity-80 duration-500 shadow-sm hover:text-teal-600 focus:ring-3 focus:outline-hidden sm:w-auto mt-10 uppercase"
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="block w-full rounded-sm bg-white px-12 py-3 text-lg text-center font-bold text-teal-600 hover:opacity-80 duration-500 shadow-sm hover:text-teal-600 focus:ring-3 focus:outline-hidden sm:w-auto mt-10 uppercase cursor-pointer"
         >
           Register As A Doctor Now
-        </Link>
+        </button>
       </div>
+      <RegisterDoctorModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
     </div>
   );
 };

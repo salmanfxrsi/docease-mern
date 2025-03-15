@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../../assets/shared/logo.png";
 import { Link, NavLink } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import { IoIosArrowDropdown } from "react-icons/io";
 import useUser from "../../hooks/useUser";
+import RegisterDoctorModal from "../modals/RegisterDoctorModal";
 
 const Navbar = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [, data] = useUser();
 
   const routes = (
@@ -16,9 +18,6 @@ const Navbar = () => {
       <NavLink to="/doctors" className="font-medium">
         Doctors
       </NavLink>
-      <NavLink to="/doctor-registration" className="font-medium">
-        Doctor Registration
-      </NavLink>
 
       {data?.role === "patient" && (
         <>
@@ -28,6 +27,12 @@ const Navbar = () => {
           <NavLink to="/upcoming-booking" className="font-medium">
             Upcoming Booking
           </NavLink>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="font-medium text-left"
+          >
+            Be a Doctor
+          </button>
         </>
       )}
       {data?.role === "admin" && (
@@ -54,6 +59,12 @@ const Navbar = () => {
           <NavLink to="/upcoming-booking" className="font-medium">
             Upcoming Booking
           </NavLink>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="cursor-pointer font-medium text-left"
+          >
+            Doctor Registration
+          </button>
         </>
       )}
 
@@ -115,9 +126,6 @@ const Navbar = () => {
           </NavLink>
           <NavLink to="/doctors" className="font-medium">
             Doctors
-          </NavLink>
-          <NavLink to="/doctor-registration" className="font-medium">
-            Doctor Registration
           </NavLink>
         </div>
       </div>
@@ -181,6 +189,10 @@ const Navbar = () => {
           </div>
         )}
       </div>
+      <RegisterDoctorModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
     </div>
   );
 };
