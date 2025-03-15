@@ -3,11 +3,17 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loader from "../../../components/Loader";
 import toast from "react-hot-toast";
 import { Link } from "react-router";
+import NoAccessBadge from "../../../components/NoAccessBadge";
+import Avatar from "../../../components/Avatar";
 
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
 
-  const { isLoading, data: users, refetch } = useQuery({
+  const {
+    isLoading,
+    data: users,
+    refetch,
+  } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       const { data } = await axiosSecure.get("/users");
@@ -15,89 +21,119 @@ const ManageUsers = () => {
     },
   });
 
+  if (isLoading) return <Loader />;
+
+  // Handle role change
   const handleRoleChange = async (id, role) => {
     try {
-      await axiosSecure.patch(`/users/role/${id}`, { role });
+      await axiosSecure.patch(`/users/role/${id}`, { role: role });
       toast.success("Role Updated");
       refetch();
     } catch (error) {
-      toast.error("Failed to update role");
+      toast.error(error.message);
     }
   };
 
-  const confirmRoleChange = (id, role) => {
-    toast(
-      (t) => (
-        <div className="flex gap-4 items-center">
-          <p className="font-semibold">Are you sure?</p>
-          <ActionButton
-            text="Sure"
-            onClick={() => {
-              toast.dismiss(t.id);
-              handleRoleChange(id, role);
-            }}
-            className="bg-red-500 hover:bg-gray-500"
-          />
-          <ActionButton
-            text="Cancel"
-            onClick={() => toast.dismiss(t.id)}
-            className="bg-teal-600 hover:bg-gray-500"
-          />
-        </div>
-      ),
-      { duration: 5000 }
-    );
+  // Change role confirmation
+  const changeRoleConfirmation = (id, role) => {
+    toast((t) => (
+      <div className="flex gap-4 items-center justify-center">
+        <p className="font-semibold">Are You Sure?</p>
+        <button
+          className="bg-red-500 rounded-md w-full text-sm font-medium text-white capitalize transition-colors duration-300 transform lg:w-auto hover:bg-gray-500 text-center py-1 px-3"
+          onClick={() => {
+            toast.dismiss(t.id);
+            handleRoleChange(id, role);
+          }}
+        >
+          Sure
+        </button>
+        <button
+          className="bg-teal-600 rounded-md w-full text-sm font-medium text-white capitalize transition-colors duration-300 transform lg:w-auto hover:bg-gray-500 text-center py-1 px-3"
+          onClick={() => toast.dismiss(t.id)}
+        >
+          Cancel
+        </button>
+      </div>
+    ));
   };
 
-  if (isLoading) return <Loader />;
-
   return (
-    <div className="py-24 mx-auto container">
+    <div className="overflow-x-auto py-24 mx-auto container">
+      {/* Table */}
       <div className="overflow-x-auto">
         <table className="table">
-          <thead className="bg-teal-600 text-white font-semibold">
-            <tr>
-              <th>#</th>
+          {/* Head */}
+          <thead className="bg-teal-600">
+            <tr className="text-white font-semibold">
+              <th></th>
               <th>User Photo</th>
               <th>User Name</th>
-              <th>User Email</th>
+              <th>User Id</th>
               <th>Current Role</th>
               <th>Change Role</th>
-              <th>Actions</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
+            {users.map((user) => (
               <tr key={user._id}>
-                <td className="font-bold">{index + 1}</td>
+                <td></td>
                 <td>
-                  <Avatar image={user?.image} name={user?.name} />
-                </td>
-                <td className="font-bold">{user?.name}</td>
-                <td className="font-bold">{user?.email}</td>
-                <td className="font-bold">
-                  {user?.role
-                    ? user.role.charAt(0).toUpperCase() + user.role.slice(1)
-                    : ""}
+                  <div className="flex items-center gap-3">
+                    <Avatar
+                      image={
+                        user?.image ||
+                        "https://i.ibb.co.com/JjMjKfWZ/hand-drawn-doctor-cartoon-illustration-23-2150696182.jpg"
+                      }
+                      name={user?.name}
+                    />
+                  </div>
                 </td>
                 <td>
+                  <h1 className="font-bold">{user?.name}</h1>
+                </td>
+                <td>
+                  <h1 className="font-bold">{user?.email}</h1>
+                </td>
+                <td>
+                  <h1 className="font-bold">
+                    {user?.role
+                      ? user.role.charAt(0).toUpperCase() + user.role.slice(1)
+                      : ""}
+                  </h1>
+                </td>
+                {/* User Role Change Button */}
+                <th>
                   {user.role === "admin" ? (
                     <NoAccessBadge />
                   ) : (
-                    <RoleSelect
-                      currentRole={user.role}
-                      onChange={(e) => confirmRoleChange(user._id, e.target.value)}
-                    />
+                    <div className="mt-2">
+                      <select
+                        id="role"
+                        name="role"
+                        value={user?.role}
+                        onChange={(e) =>
+                          changeRoleConfirmation(user._id, e.target.value)
+                        }
+                        className="w-full p-2.5 border border-gray-300 rounded-md"
+                      >
+                        <option value="patient">Patient</option>
+                        <option value="doctor">Doctor</option>
+                        <option value="admin">Admin</option>
+                      </select>
+                    </div>
                   )}
-                </td>
-                <td>
+                </th>
+                {/* View Details Button */}
+                <th>
                   <Link
-                    className="bg-teal-600 text-white px-5 py-1 rounded-sm"
+                    className="bg-teal-600 text-white px-5 py-1 rounded-sm cursor-pointer"
                     to={`/doctors/${user?._id}`}
                   >
                     Details
                   </Link>
-                </td>
+                </th>
               </tr>
             ))}
           </tbody>
@@ -107,40 +143,4 @@ const ManageUsers = () => {
   );
 };
 
-const Avatar = ({ image, name }) => (
-  <div className="avatar">
-    <div className="mask mask-squircle h-12 w-12">
-      <img src={image} alt={name} />
-    </div>
-  </div>
-);
-
-const NoAccessBadge = () => (
-  <div className="bg-red-500 text-white text-xs font-black uppercase px-2 py-1 rounded-full w-[160px] flex justify-center">
-    No Access
-  </div>
-);
-
-const RoleSelect = ({ currentRole, onChange }) => (
-  <select
-    className="w-full p-2.5 border border-gray-300 rounded-md"
-    value={currentRole}
-    onChange={onChange}
-  >
-    <option value="patient">Patient</option>
-    <option value="doctor">Doctor</option>
-    <option value="admin">Admin</option>
-  </select>
-);
-
-const ActionButton = ({ text, onClick, className }) => (
-  <button
-    className={`rounded-md w-full text-sm font-medium text-white capitalize transition-colors duration-300 transform lg:w-auto px-3 py-1 ${className}`}
-    onClick={onClick}
-  >
-    {text}
-  </button>
-);
-
 export default ManageUsers;
-

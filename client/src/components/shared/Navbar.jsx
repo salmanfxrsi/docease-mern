@@ -36,7 +36,7 @@ const Navbar = () => {
             Manage Users
           </NavLink>
           <NavLink to="/manage-doctor-registration" className="font-medium">
-            Manage Doctor Registration
+            Doctor Registration
           </NavLink>
         </>
       )}

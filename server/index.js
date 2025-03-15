@@ -151,6 +151,12 @@ async function run() {
       }
     });
 
+    // Get pending doctors
+    app.get("/doctors/pending", async (req, res) => {
+      const doctors = await doctorCollection.find({ status: "pending" }).toArray();
+      res.send(doctors);
+    })
+    
     // Get all doctors
     app.get("/doctors", async (req, res) => {
       try {

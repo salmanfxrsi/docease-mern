@@ -8,6 +8,7 @@ import Doctors from "../pages/doctors/Doctors";
 import DoctorDetails from "../pages/doctor details/DoctorDetails";
 import PrivateRoutes from "./PrivateRoutes";
 import ManageUsers from "../pages/role-base/admin/ManageUsers";
+import ManageDoctorRegistration from "../pages/role-base/admin/ManageDoctorRegistration";
 
 const Router = () => {
   return (
@@ -28,6 +29,7 @@ const Router = () => {
 
         {/* Admin Routes */}
         <Route path="manage-users" element={<ManageUsers />} />
+        <Route path="manage-doctor-registration" element={<ManageDoctorRegistration />} />
 
         {/* Auth Routes */}
         <Route path="/register" element={<Register />} />
