@@ -11,10 +11,10 @@ const DoctorDetailsCard = ({ doctor }) => {
 
   const handleAppointments = async () => {
     const user = {
-      userId: data._id,
-      userEmail: data.email,
-      userName: data.name,
-      userImage: data.image,
+      patientId: data._id,
+      patientEmail: data.email,
+      patientName: data.name,
+      patientImage: data.image,
 
       doctorId: doctor._id,
       doctorName: doctor.name,
@@ -80,7 +80,7 @@ const DoctorDetailsCard = ({ doctor }) => {
         ))}
       </dl>
 
-      {data?.role === "user" && (
+      {data?.role === "patient" && (
         <div className="mt-8">
           <button
             onClick={

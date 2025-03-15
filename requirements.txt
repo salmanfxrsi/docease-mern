@@ -32,7 +32,7 @@ The Doctor Appointment Website aims to provide an online platform where patients
 - Receive notifications for new appointments or cancellations
 
 2.4 Admin Features
-- Manage users (patients and doctors)
+- Manage users (patients and doctors) ✅
 - Approve doctor registrations
 - Monitor appointments and system analytics
 - Generate reports on bookings and system performance
@@ -65,7 +65,7 @@ The Doctor Appointment Website aims to provide an online platform where patients
 5.2 Patient Routes
 - GET /api/doctors - Get list of available doctors ✅
 - POST /api/appointments - Book an appointment ✅
-- GET /api/appointments - View appointments
+- GET /api/appointments - View appointments ✅
 - PUT /api/appointments/:id - Cancel or reschedule an appointment
 
 5.3 Doctor Routes

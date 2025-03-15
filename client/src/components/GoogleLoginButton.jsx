@@ -25,7 +25,7 @@ const GoogleLoginButton = () => {
         email,
         name: displayName,
         image: photoURL,
-        role: "user",
+        role: "patient",
       });
 
       toast.success("Welcome to DocEase!");

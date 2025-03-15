@@ -7,6 +7,7 @@ import Login from "../pages/authentication/Login";
 import Doctors from "../pages/doctors/Doctors";
 import DoctorDetails from "../pages/doctor details/DoctorDetails";
 import PrivateRoutes from "./PrivateRoutes";
+import ManageUsers from "../pages/role-base/admin/ManageUsers";
 
 const Router = () => {
   return (
@@ -24,6 +25,9 @@ const Router = () => {
             </PrivateRoutes>
           }
         />
+
+        {/* Admin Routes */}
+        <Route path="manage-users" element={<ManageUsers />} />
 
         {/* Auth Routes */}
         <Route path="/register" element={<Register />} />

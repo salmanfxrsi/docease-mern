@@ -27,6 +27,22 @@ async function run() {
   const appointmentCollection = client.db("docease").collection("appointments");
 
   try {
+    // Get users
+    app.get("/users", async (req, res) => {
+      try {
+        const users = await userCollection
+          .find()
+          .sort({ createdAt: -1 })
+          .toArray();
+        res.status(200).send({ success: true, data: users });
+      } catch (error) {
+        console.error("Error fetching users", error);
+        res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
+      }
+    });
+
     // Post users
     app.post("/users", async (req, res) => {
       try {
@@ -43,13 +59,47 @@ async function run() {
         const result = await userCollection.insertOne({
           email,
           ...userData,
-          timestamp: Date.now(),
+          createdAt: Date.now(),
         });
 
         res.json(result);
       } catch (error) {
         console.error("Error adding user:", error);
         res.status(500).json({ message: "Internal server error" });
+      }
+    });
+
+    // Change role of a specific user
+    app.patch("/users/role/:id", async (req, res) => {
+      try {
+        const { id } = req.params;
+        const { role } = req.body;
+
+        // Validate ObjectId
+        if (!ObjectId.isValid(id)) {
+          return res.status(400).json({ error: "Invalid user ID format" });
+        }
+
+        // Validate role
+        if (!role) {
+          return res.status(400).json({ error: "Role is required" });
+        }
+
+        const query = { _id: new ObjectId(id) };
+        const updateRole = {
+          $set: { role },
+        };
+
+        const result = await userCollection.updateOne(query, updateRole);
+
+        if (result.matchedCount === 0) {
+          return res.status(404).json({ error: "User not found" });
+        }
+
+        res.json({ message: "User role updated successfully", result });
+      } catch (error) {
+        console.error("Error updating user role:", error);
+        res.status(500).json({ error: "Internal server error" });
       }
     });
 

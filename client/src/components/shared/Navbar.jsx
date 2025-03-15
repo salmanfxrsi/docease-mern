@@ -20,7 +20,7 @@ const Navbar = () => {
         Doctor Registration
       </NavLink>
 
-      {data?.role === "user" && (
+      {data?.role === "patient" && (
         <>
           <NavLink to="/appointment-history" className="font-medium">
             Appointment History
@@ -30,19 +30,41 @@ const Navbar = () => {
           </NavLink>
         </>
       )}
+      {data?.role === "admin" && (
+        <>
+          <NavLink to="/manage-users" className="font-medium">
+            Manage Users
+          </NavLink>
+          <NavLink to="/manage-doctor-registration" className="font-medium">
+            Manage Doctor Registration
+          </NavLink>
+        </>
+      )}
     </>
   );
 
   const privateRoutes = (
     <>
-      {/* User Routes */}
-      {data?.role === "user" && (
+      {/* Patient Routes */}
+      {data?.role === "patient" && (
         <>
           <NavLink to="/appointment-history" className="font-medium">
             Appointment History
           </NavLink>
           <NavLink to="/upcoming-booking" className="font-medium">
             Upcoming Booking
+          </NavLink>
+        </>
+      )}
+
+      {/* Admin Routes */}
+      {data?.role === "admin" && (
+        <>
+          <NavLink to="/manage-users" className="font-medium">
+            Manage Users
+          </NavLink>
+          <NavLink to="/manage-doctor-registration" className="font-medium">
+            Doctor Registration
           </NavLink>
         </>
       )}
