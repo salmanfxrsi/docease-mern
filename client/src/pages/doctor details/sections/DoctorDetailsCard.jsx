@@ -27,6 +27,10 @@ const DoctorDetailsCard = ({ doctor }) => {
 
       status: "pending",
       isCompleted: false,
+      medicine: "",
+      feedback: "",
+      rating: 5,
+      time: "",
       requestedAt: new Date().toISOString(),
     };
     

@@ -1,32 +1,46 @@
 import logo from "../../assets/shared/logo.png";
 import toast from "react-hot-toast";
 import GoogleLoginButton from "../../components/GoogleLoginButton";
+import useAuth from "../../hooks/useAuth";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { useNavigate } from "react-router";
 
 const Register = () => {
+  const { signUp, setUser } = useAuth();
+  const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
-    const {
-      first_name,
-      last_name,
-      email,
-      password,
-      password_confirmation,
-      image,
-      role,
-    } = form;
-    const user_info = {
-      name: first_name.value + " " + last_name.value,
-      email: email.value,
-      image: image.value,
-      role: role.value,
-    };
+    const name = form.first_name.value + " " + form.last_name.value;
+    const email = form.email.value;
+    const image = form.image.value;
+    const role = "patient";
+    const password = form.password.value;
+    const password_confirmation = form.password_confirmation.value;
 
-    if (password.value !== password_confirmation.value) {
+    if (password !== password_confirmation) {
       return toast.error("Password Not Matched");
     }
+    
+    const user_info = {name, email, image, role}
+    
 
-    console.log(user_info);
+    signUp(email, password)
+      .then(async (result) => {
+        try {
+          await axiosPublic.post("/users", user_info);
+        } catch (error) {
+          toast.error(error.message);
+        }
+        setUser(result.user);
+        toast.success("Registration Successful");
+        navigate('/');
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   };
 
   return (
@@ -118,7 +132,7 @@ const Register = () => {
               </div>
 
               {/* Image */}
-              <div className="col-span-6 sm:col-span-3">
+              <div className="col-span-12 sm:col-span-6">
                 <label
                   htmlFor="Image"
                   className="block text-sm font-medium text-gray-700"
@@ -132,26 +146,6 @@ const Register = () => {
                   required
                   className="mt-1 py-2 px-4 w-full rounded-md border-2 bg-white text-sm text-gray-700 shadow-xs"
                 />
-              </div>
-
-              {/* Role */}
-              <div className="col-span-6 sm:col-span-3">
-                <label
-                  htmlFor="Role"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Role
-                </label>
-                <select
-                  id="role"
-                  name="role"
-                  required
-                  className="mt-1 py-2 px-4 w-full rounded-md border-2 bg-white text-sm text-gray-700 shadow-xs"
-                >
-                  <option value="patient">Please select</option>
-                  <option value="patient">Patient</option>
-                  <option value="doctor">Doctor</option>
-                </select>
               </div>
 
               {/* Password */}
