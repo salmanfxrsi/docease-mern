@@ -1,14 +1,28 @@
 import React from "react";
 import GoogleLoginButton from "../../components/GoogleLoginButton";
 import logo from "../../assets/shared/logo.png";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const { signIn, setUser } = useAuth();
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
+    signIn(email, password)
+      .then((result) => {
+        setUser(result.user);
+        toast.success("Sign In Successful");
+        navigate("/");
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   };
 
   return (
