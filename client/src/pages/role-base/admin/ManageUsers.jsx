@@ -11,36 +11,39 @@ const ManageUsers = () => {
 
   const {
     isLoading,
-    data: users,
+    data: users = [],
     refetch,
   } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const { data } = await axiosSecure.get("/users");
-      return data.data;
+      try {
+        const { data } = await axiosSecure.get("/users");
+        return data.data;
+      } catch (error) {
+        toast.error("Failed to fetch users.");
+        return [];
+      }
     },
   });
 
   if (isLoading) return <Loader />;
 
-  // Handle role change
   const handleRoleChange = async (id, role) => {
     try {
-      await axiosSecure.patch(`/users/role/${id}`, { role: role });
+      await axiosSecure.patch(`/users/role/${id}`, { role });
       toast.success("Role Updated");
       refetch();
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.response?.data?.message || "Failed to update role.");
     }
   };
 
-  // Change role confirmation
-  const changeRoleConfirmation = (id, role) => {
+  const confirmRoleChange = (id, role) => {
     toast((t) => (
       <div className="flex gap-4 items-center justify-center">
         <p className="font-semibold">Are You Sure?</p>
         <button
-          className="bg-red-500 rounded-md w-full text-sm font-medium text-white capitalize transition-colors duration-300 transform lg:w-auto hover:bg-gray-500 text-center py-1 px-3"
+          className="bg-red-500 rounded-md text-sm font-medium text-white py-1 px-3"
           onClick={() => {
             toast.dismiss(t.id);
             handleRoleChange(id, role);
@@ -49,7 +52,7 @@ const ManageUsers = () => {
           Sure
         </button>
         <button
-          className="bg-teal-600 rounded-md w-full text-sm font-medium text-white capitalize transition-colors duration-300 transform lg:w-auto hover:bg-gray-500 text-center py-1 px-3"
+          className="bg-teal-600 rounded-md text-sm font-medium text-white py-1 px-3"
           onClick={() => toast.dismiss(t.id)}
         >
           Cancel
@@ -60,85 +63,71 @@ const ManageUsers = () => {
 
   return (
     <div className="overflow-x-auto py-24 mx-auto container">
-      {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="table">
-          {/* Head */}
-          <thead className="bg-teal-600">
-            <tr className="text-white font-semibold">
-              <th></th>
-              <th>User Photo</th>
-              <th>User Name</th>
-              <th>User Id</th>
-              <th>Current Role</th>
-              <th>Change Role</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user._id}>
-                <td></td>
-                <td>
-                  <div className="flex items-center gap-3">
+      {users.length > 0 ? (
+        <div className="overflow-x-auto">
+          <table className="table">
+            <thead className="bg-teal-600">
+              <tr className="text-white font-semibold">
+                <th></th>
+                <th>User Photo</th>
+                <th>User Name</th>
+                <th>User Id</th>
+                <th>Current Role</th>
+                <th>Change Role</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map(({ _id, image, name, email, role }) => (
+                <tr key={_id}>
+                  <td></td>
+                  <td>
                     <Avatar
                       image={
-                        user?.image ||
+                        image ||
                         "https://i.ibb.co.com/JjMjKfWZ/hand-drawn-doctor-cartoon-illustration-23-2150696182.jpg"
                       }
-                      name={user?.name}
+                      name={name}
                     />
-                  </div>
-                </td>
-                <td>
-                  <h1 className="font-bold">{user?.name}</h1>
-                </td>
-                <td>
-                  <h1 className="font-bold">{user?.email}</h1>
-                </td>
-                <td>
-                  <h1 className="font-bold">
-                    {user?.role
-                      ? user.role.charAt(0).toUpperCase() + user.role.slice(1)
-                      : ""}
-                  </h1>
-                </td>
-                {/* User Role Change Button */}
-                <th>
-                  {user.role === "admin" ? (
-                    <NoAccessBadge />
-                  ) : (
-                    <div className="mt-2">
+                  </td>
+                  <td className="font-bold">{name}</td>
+                  <td className="font-bold">{email}</td>
+                  <td className="font-bold">
+                    {role?.charAt(0).toUpperCase() + role?.slice(1)}
+                  </td>
+                  <th>
+                    {role === "admin" ? (
+                      <NoAccessBadge />
+                    ) : (
                       <select
-                        id="role"
-                        name="role"
-                        value={user?.role}
-                        onChange={(e) =>
-                          changeRoleConfirmation(user._id, e.target.value)
-                        }
                         className="w-full p-2.5 border border-gray-300 rounded-md"
+                        value={role}
+                        onChange={(e) => confirmRoleChange(_id, e.target.value)}
                       >
                         <option value="patient">Patient</option>
                         <option value="doctor">Doctor</option>
                         <option value="admin">Admin</option>
                       </select>
-                    </div>
-                  )}
-                </th>
-                {/* View Details Button */}
-                <th>
-                  <Link
-                    className="bg-teal-600 text-white px-5 py-1 rounded-sm cursor-pointer"
-                    to={`/doctors/${user?._id}`}
-                  >
-                    Details
-                  </Link>
-                </th>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                    )}
+                  </th>
+                  <th>
+                    <Link
+                      className="bg-teal-600 text-white px-5 py-1 rounded-sm"
+                      to={`/doctors/${_id}`}
+                    >
+                      Details
+                    </Link>
+                  </th>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <h1 className="text-2xl text-center font-medium uppercase pt-24">
+          No User Found
+        </h1>
+      )}
     </div>
   );
 };

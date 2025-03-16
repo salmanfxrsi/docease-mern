@@ -4,17 +4,23 @@ import { RxCross1 } from "react-icons/rx";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import useUser from "../../hooks/useUser";
+import Loader from "../Loader";
 
 const RegisterDoctorModal = ({ isModalOpen, setIsModalOpen }) => {
-    const { user } = useAuth();
-    const axiosPublic = useAxiosPublic();
+  const { user } = useAuth();
+  const [isLoading, data] = useUser();
+  const axiosPublic = useAxiosPublic();
   const [specialty, setSpecialty] = useState("Cardiologist");
+
+  if (isLoading) return <Loader />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
+    const userId = data._id;
     const name = user.displayName;
-    const availability = "available";
+    const availability = "Available";
     const status = "pending";
     const experience = form.experience.value;
     const rating = 5.0;
@@ -24,19 +30,32 @@ const RegisterDoctorModal = ({ isModalOpen, setIsModalOpen }) => {
     const contact = form.contact.value;
     const email = user.email;
 
-    if(contact.length !== 11) return toast.error('Your Number Is Wrong')
+    if (contact.length !== 11) return toast.error("Your Number Is Wrong");
 
-    const doctorInfo = {name, specialty, availability, status, experience, rating, image, time, location, contact, email}
-    
-    try{
-        const { data } = await axiosPublic.post('/doctors', doctorInfo);
-        toast.success(data.message)
-        e.target.reset()
-        setIsModalOpen(false)
-    }catch(error){
-        toast.error(error.message)
+    const doctorInfo = {
+      userId,
+      name,
+      specialty,
+      availability,
+      status,
+      experience,
+      rating,
+      image,
+      time,
+      location,
+      contact,
+      email,
+    };
+
+    try {
+      const { data } = await axiosPublic.post("/doctors", doctorInfo);
+      toast.success(data.message);
+      e.target.reset();
+      setIsModalOpen(false);
+    } catch (error) {
+      toast.error(error.message);
     }
-  }
+  };
 
   const specialties = [
     "Cardiologist",
@@ -73,7 +92,9 @@ const RegisterDoctorModal = ({ isModalOpen, setIsModalOpen }) => {
         } w-[90%] sm:w-[80%] md:w-[35%] bg-[#fff] rounded-lg transition-all duration-300 mx-auto mt-8`}
       >
         <div className="w-full flex items-end p-4 justify-between border-b border-[#d1d1d1]">
-          <h1 className="text-[1.5rem] font-bold uppercase">Register as a Doctor</h1>
+          <h1 className="text-[1.5rem] font-bold uppercase">
+            Register as a Doctor
+          </h1>
           <RxCross1
             className="p-2 text-[2.5rem] hover:bg-[#e7e7e7] rounded-full transition-all duration-300 cursor-pointer"
             onClick={() => setIsModalOpen(false)}
@@ -163,23 +184,23 @@ const RegisterDoctorModal = ({ isModalOpen, setIsModalOpen }) => {
             </div>
 
             <div>
-            <label
+              <label
                 htmlFor="Specialty"
                 className="text-[1rem] font-[500] text-[#464646]"
               >
                 Specialty
               </label>
-            <select
-              className="py-2 px-3 border border-[#d1d1d1] rounded-md w-full mt-1"
-              onChange={(e) => setSpecialty(e.target.value)}
-              value={specialty}
-            >
-              {specialties.map((specialty, index) => (
-                <option key={index} value={specialty}>
-                  {specialty}
-                </option>
-              ))}
-            </select>
+              <select
+                className="py-2 px-3 border border-[#d1d1d1] rounded-md w-full mt-1"
+                onChange={(e) => setSpecialty(e.target.value)}
+                value={specialty}
+              >
+                {specialties.map((specialty, index) => (
+                  <option key={index} value={specialty}>
+                    {specialty}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 

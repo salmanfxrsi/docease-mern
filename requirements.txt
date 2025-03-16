@@ -9,10 +9,10 @@ The Doctor Appointment Website aims to provide an online platform where patients
 
 2. Features & Functionalities
 
-2.1 User Roles
-1. Patient
-2. Doctor
-3. Admin
+2.1 User Roles ✅
+1. Patient ✅
+2. Doctor ✅
+3. Admin ✅
 
 2.2 Patient Features
 - User authentication (Sign up/Login using email, Google, etc.)
@@ -33,7 +33,7 @@ The Doctor Appointment Website aims to provide an online platform where patients
 
 2.4 Admin Features
 - Manage users (patients and doctors) ✅
-- Approve doctor registrations
+- Approve doctor registrations ✅
 - Monitor appointments and system analytics
 - Generate reports on bookings and system performance
 - Manage complaints and feedback
@@ -54,13 +54,13 @@ The Doctor Appointment Website aims to provide an online platform where patients
 2. Patients search for doctors and book an appointment.
 3. Doctors manage their schedules and confirm appointments.
 4. Admin oversees system operations and user activities.
-
+ 
 5. API Endpoints
 
 5.1 Authentication
-- POST /api/auth/register - Register a new user
-- POST /api/auth/login - User login
-- POST /api/auth/logout - User logout
+- POST /api/auth/register - Register a new user ✅
+- POST /api/auth/login - User login ✅
+- POST /api/auth/logout - User logout ✅
 
 5.2 Patient Routes
 - GET /api/doctors - Get list of available doctors ✅
@@ -73,7 +73,7 @@ The Doctor Appointment Website aims to provide an online platform where patients
 - PUT /api/appointments/:id/status - Approve/Reject appointment
 
 5.4 Admin Routes
-- GET /api/users - Manage users
+- GET /api/users - Manage users ✅
 - GET /api/reports - View system analytics
 
 6. Non-Functional Requirements

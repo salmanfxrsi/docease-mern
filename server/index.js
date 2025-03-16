@@ -173,6 +173,34 @@ async function run() {
       }
     });
 
+    app.patch("/doctors/manage-request/:id", async (req, res) => {
+      try {
+        const { id } = req.params;
+        const { status, userId } = req.query;
+    
+        if (!id || !status) {
+          return res.status(400).json({ error: "Missing required parameters." });
+        }
+    
+        const doctorQuery = { _id: new ObjectId(id) };
+        const updateStatus = { $set: { status } };
+    
+        const response = await doctorCollection.updateOne(doctorQuery, updateStatus);
+    
+        if (status === "accepted" && userId) {
+          const userQuery = { _id: new ObjectId(userId) };
+          const updateRole = { $set: { role: "doctor" } };
+          await userCollection.updateOne(userQuery, updateRole);
+        }
+    
+        res.json(response);
+      } catch (error) {
+        console.error("Error updating doctor request:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+      }
+    });
+    
+
     // Get pending doctors
     app.get("/doctors/pending", async (req, res) => {
       const doctors = await doctorCollection
