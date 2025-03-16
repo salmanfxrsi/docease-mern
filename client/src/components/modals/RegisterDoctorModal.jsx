@@ -9,11 +9,9 @@ import Loader from "../Loader";
 
 const RegisterDoctorModal = ({ isModalOpen, setIsModalOpen }) => {
   const { user } = useAuth();
-  const [isLoading, data] = useUser();
+  const [, data] = useUser();
   const axiosPublic = useAxiosPublic();
   const [specialty, setSpecialty] = useState("Cardiologist");
-
-  if (isLoading) return <Loader />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
