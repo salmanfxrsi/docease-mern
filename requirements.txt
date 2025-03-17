@@ -15,16 +15,16 @@ The Doctor Appointment Website aims to provide an online platform where patients
 3. Admin ✅
 
 2.2 Patient Features
-- User authentication (Sign up/Login using email, Google, etc.)
+- User authentication (Sign up/Login using email, Google, etc.) ✅
 - Browse and search for doctors by specialty, location, or availability ✅
 - Book an appointment with available doctors ✅
-- View appointment history and upcoming bookings
+- View appointment history and upcoming bookings ✅
 - Cancel or reschedule appointments
 - Provide ratings and reviews for doctors
 - Receive email notifications for confirmed and upcoming appointments
 
 2.3 Doctor Features
-- User authentication (Sign up/Login)
+- User authentication (Sign up/Login) ✅
 - Profile management (name, specialty, availability, experience, etc.)
 - Approve or reject appointment requests
 - View patient details and appointment history

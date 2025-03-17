@@ -10,6 +10,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import ManageUsers from "../pages/role-base/admin/ManageUsers";
 import ManageDoctorRegistration from "../pages/role-base/admin/ManageDoctorRegistration";
 import AppointmentHistoryPatient from "../pages/role-base/patient/AppointmentHistoryPatient";
+import UpcomingBookingPatient from "../pages/role-base/patient/UpcomingBookingPatient";
 
 const Router = () => {
   return (
@@ -30,6 +31,7 @@ const Router = () => {
 
         {/* Patient Routes */}
         <Route path="appointment-history" element={<AppointmentHistoryPatient />} />
+        <Route path="upcoming-booking" element={<UpcomingBookingPatient />} />
 
         {/* Admin Routes */}
         <Route path="manage-users" element={<ManageUsers />} />

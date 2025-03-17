@@ -135,13 +135,15 @@ async function run() {
         const { isCompleted, status, patientId, doctorId } = req.query; 
         const query = {};
 
-        if(status === 'accepted') query.status = status;
+        if(status) query.status = status;
 
         if(patientId) query.patientId = patientId;
 
         if(doctorId) query.doctorId = doctorId;
 
         if(isCompleted === "true") query.isCompleted = true;
+
+        if(isCompleted === 'false') query.isCompleted = false;
 
         const appointments = await appointmentCollection.find(query).sort({ requestedAt: -1 }).toArray();
         res.send(appointments);
