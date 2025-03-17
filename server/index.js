@@ -133,13 +133,14 @@ async function run() {
     // Get appointments
     app.get("/appointments", async (req, res) => {
       try {
-        const { isCompleted, status, patientId, doctorId, doctorEmail } = req.query;
+        const { isCompleted, status, patientId, doctorId, doctorEmail } =
+          req.query;
         let query = {};
 
         if (status) query.status = status;
 
         if (patientId) query.patientId = patientId;
-        
+
         if (doctorEmail) query.doctorEmail = doctorEmail;
 
         if (doctorId) query.doctorId = doctorId;
@@ -165,7 +166,9 @@ async function run() {
         const { status } = req.query;
 
         if (!ObjectId.isValid(id)) {
-          return res.status(400).json({ error: "Invalid appointment ID format" });
+          return res
+            .status(400)
+            .json({ error: "Invalid appointment ID format" });
         }
 
         if (!status) {
@@ -177,7 +180,10 @@ async function run() {
           $set: { status },
         };
 
-        const result = await appointmentCollection.updateOne(query, updateStatus);
+        const result = await appointmentCollection.updateOne(
+          query,
+          updateStatus
+        );
 
         if (result.matchedCount === 0) {
           return res.status(404).json({ error: "Appointment not found" });
@@ -205,11 +211,9 @@ async function run() {
         res.status(200).json({ message: "Appointment deleted successfully" });
       } catch (error) {
         console.error("Error deleting appointment:", error);
-        res
-          .status(500)
-          .json({
-            message: "An error occurred while deleting the appointment",
-          });
+        res.status(500).json({
+          message: "An error occurred while deleting the appointment",
+        });
       }
     });
 

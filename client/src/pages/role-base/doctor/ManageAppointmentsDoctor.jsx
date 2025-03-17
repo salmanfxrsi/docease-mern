@@ -28,8 +28,6 @@ const ManageAppointmentsDoctor = () => {
     },
   });
 
-  console.log(appointments);
-
   const handleStatusChange = async (id, status) => {
     try {
       await axiosSecure.patch(
