@@ -19,7 +19,7 @@ The Doctor Appointment Website aims to provide an online platform where patients
 - Browse and search for doctors by specialty, location, or availability ✅
 - Book an appointment with available doctors ✅
 - View appointment history and upcoming bookings ✅
-- Cancel or reschedule appointments
+- Cancel or reschedule appointments ✅
 - Provide ratings and reviews for doctors
 - Receive email notifications for confirmed and upcoming appointments
 

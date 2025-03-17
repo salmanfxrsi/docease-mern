@@ -130,25 +130,52 @@ async function run() {
       }
     });
 
+    // Get appointments
     app.get("/appointments", async (req, res) => {
       try {
-        const { isCompleted, status, patientId, doctorId } = req.query; 
+        const { isCompleted, status, patientId, doctorId } = req.query;
         const query = {};
 
-        if(status) query.status = status;
+        if (status) query.status = status;
 
-        if(patientId) query.patientId = patientId;
+        if (patientId) query.patientId = patientId;
 
-        if(doctorId) query.doctorId = doctorId;
+        if (doctorId) query.doctorId = doctorId;
 
-        if(isCompleted === "true") query.isCompleted = true;
+        if (isCompleted === "true") query.isCompleted = true;
 
-        if(isCompleted === 'false') query.isCompleted = false;
+        if (isCompleted === "false") query.isCompleted = false;
 
-        const appointments = await appointmentCollection.find(query).sort({ requestedAt: -1 }).toArray();
+        const appointments = await appointmentCollection
+          .find(query)
+          .sort({ requestedAt: -1 })
+          .toArray();
         res.send(appointments);
       } catch (error) {
         res.status(500).send({ message: "Internal server error", error });
+      }
+    });
+
+    // Delete appointment by id
+    app.delete("/appointments/:id", async (req, res) => {
+      try {
+        const { id } = req.params;
+        const query = { _id: new ObjectId(id) };
+
+        const result = await appointmentCollection.deleteOne(query);
+
+        if (result.deletedCount === 0) {
+          return res.status(404).json({ message: "Appointment not found" });
+        }
+
+        res.status(200).json({ message: "Appointment deleted successfully" });
+      } catch (error) {
+        console.error("Error deleting appointment:", error);
+        res
+          .status(500)
+          .json({
+            message: "An error occurred while deleting the appointment",
+          });
       }
     });
 
