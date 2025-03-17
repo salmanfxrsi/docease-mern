@@ -238,6 +238,30 @@ async function run() {
       }
     });
 
+    app.patch("/appointments/make-prescription/:id", async (req, res) => {
+      try {
+        const { id } = req.params;
+        const updateData = req.body;
+
+        const query = { _id: new ObjectId(id) };
+        const update = { $set: { ...updateData, isCompleted: true } };
+
+        const result = await appointmentCollection.updateOne(
+          query,
+          update
+        );
+
+        if (result.matchedCount === 0) {
+          return res.status(404).json({ message: "Appointment not found" });
+        }
+
+        res.json({ message: "Prescription updated successfully", result });
+      } catch (error) {
+        console.error("Error updating prescription:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    });
+
     // POST a doctor
     app.post("/doctors", async (req, res) => {
       try {

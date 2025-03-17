@@ -16,7 +16,7 @@ const AppointmentHistoryPatient = () => {
 
   // Fetch appointment history of the logged-in patient
   const { isLoading, data: appointmentData = [] } = useQuery({
-    queryKey: ["appointmentHistoryPatient", data?._id], 
+    queryKey: ["appointmentHistoryPatient", data?._id],
     enabled: !!data?._id,
     queryFn: async () => {
       const { data: appointmentData } = await axiosPublic.get(
@@ -42,6 +42,7 @@ const AppointmentHistoryPatient = () => {
                 <th>doctorSpecialty</th>
                 <th></th>
                 <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -60,8 +61,9 @@ const AppointmentHistoryPatient = () => {
                   <td className="font-bold">{appointment.doctorName}</td>
                   <td className="font-bold">{appointment.doctorSpecialty}</td>
                   <td>
-                    <Link to={`/doctors/${appointment.doctorId}`}
-                    className="bg-teal-600 uppercase text-white px-6 py-1 rounded-lg font-medium"
+                    <Link
+                      to={`/doctors/${appointment.doctorId}`}
+                      className="bg-teal-600 uppercase text-white px-6 py-1 rounded-lg font-medium"
                     >
                       Doctor Details
                     </Link>
@@ -70,11 +72,16 @@ const AppointmentHistoryPatient = () => {
                     <button
                       className="bg-teal-600 uppercase text-white px-6 py-1 rounded-lg font-medium cursor-pointer"
                       onClick={() => {
-                        setSelectedAppointment(appointment); 
-                        setIsModalOpen(true); 
+                        setSelectedAppointment(appointment);
+                        setIsModalOpen(true);
                       }}
                     >
                       See Report
+                    </button>
+                  </td>
+                  <td>
+                    <button className="bg-teal-600 uppercase text-white px-6 py-1 rounded-lg font-medium cursor-pointer">
+                      Review Doctor
                     </button>
                   </td>
                 </tr>

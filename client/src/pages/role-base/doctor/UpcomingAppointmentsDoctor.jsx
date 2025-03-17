@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useUser from "../../../hooks/useUser";
 import Avatar from "../../../components/Avatar";
-import { Link } from "react-router";
-import toast from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loader from "../../../components/Loader";
+import DoctorInstructionModal from "../../../components/modals/DoctorInstructionModal";
 
-const ManageAppointmentsDoctor = () => {
+const UpcomingAppointmentsDoctor = () => {
   const axiosSecure = useAxiosSecure();
   const [, data] = useUser();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Fetch appointment history of the logged-in doctor email
   const {
@@ -22,48 +22,15 @@ const ManageAppointmentsDoctor = () => {
     enabled: !!data?.email,
     queryFn: async () => {
       const { data: appointmentData } = await axiosSecure.get(
-        `/appointments?doctorEmail=${data?.email}&&status=pending`
+        `/appointments?doctorEmail=${data?.email}&&status=accepted&&isCompleted=false`
       );
       return appointmentData;
     },
   });
 
-  const handleStatusChange = async (id, status) => {
-    try {
-      await axiosSecure.patch(
-        `/appointments/status/${id}?status=${status}`
-      );
-      toast.success(`Appointment ${status}`);
-      refetch();
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to update role.");
-    }
-  };
+  console.log(appointments);
 
-  const confirmStatusChange = (id, status) => {
-    toast((t) => (
-      <div className="flex gap-4 items-center justify-center">
-        <p className="font-semibold">Are You Sure?</p>
-        <button
-          className="bg-red-500 rounded-md w-full text-sm font-medium text-white capitalize transition duration-300 transform lg:w-auto hover:bg-gray-500 py-1 px-3"
-          onClick={() => {
-            toast.dismiss(t.id);
-            handleStatusChange(id, status);
-          }}
-        >
-          Sure
-        </button>
-        <button
-          className="bg-teal-600 rounded-md w-full text-sm font-medium text-white capitalize transition duration-300 transform lg:w-auto hover:bg-gray-500 py-1 px-3"
-          onClick={() => toast.dismiss(t.id)}
-        >
-          Cancel
-        </button>
-      </div>
-    ));
-  };
-
-  if(isLoading, isFetching) return <Loader />
+  if ((isLoading, isFetching)) return <Loader />;
 
   return (
     <div className="overflow-x-auto py-24 mx-auto container">
@@ -97,33 +64,23 @@ const ManageAppointmentsDoctor = () => {
                   <td className="font-bold">{appointment.patientName}</td>
                   <td className="font-bold">{appointment.patientEmail}</td>
                   <th>
-                    <div className="mt-2 flex gap-4">
+                    <div className="mt-2">
                       <button
-                        onClick={() =>
-                          confirmStatusChange(appointment._id, "accepted")
-                        }
+                        onClick={() => setIsModalOpen(true)}
                         className="bg-teal-600 px-4 rounded-lg text-white uppercase cursor-pointer"
                       >
-                        Accept
+                        Mark as Complete
                       </button>
-                      <button
-                        onClick={() =>
-                          confirmStatusChange(appointment._id, "rejected")
-                        }
-                        className="bg-red-600 px-4 rounded-lg text-white uppercase cursor-pointer"
-                      >
-                        Reject
-                      </button>
+                      {/* Doctor Instruction Modal */}
+                      <DoctorInstructionModal
+                        isModalOpen={isModalOpen}
+                        setIsModalOpen={setIsModalOpen}
+                        appointment={appointment}
+                        refetch={refetch}
+                      />
                     </div>
                   </th>
-                  <td>
-                    <Link
-                      to={`/doctors/${appointment.doctorId}`}
-                      className="bg-teal-600 uppercase text-white px-6 py-1 rounded-lg font-medium"
-                    >
-                      Patient Details
-                    </Link>
-                  </td>
+                  <td></td>
                 </tr>
               ))}
             </tbody>
@@ -131,11 +88,11 @@ const ManageAppointmentsDoctor = () => {
         </div>
       ) : (
         <h1 className="text-2xl text-center font-medium uppercase pt-24">
-          No Appointment Found
+          No Upcoming Appointment Found
         </h1>
       )}
     </div>
   );
 };
 
-export default ManageAppointmentsDoctor;
+export default UpcomingAppointmentsDoctor;

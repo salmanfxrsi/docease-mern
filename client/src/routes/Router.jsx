@@ -12,7 +12,7 @@ import ManageDoctorRegistration from "../pages/role-base/admin/ManageDoctorRegis
 import AppointmentHistoryPatient from "../pages/role-base/patient/AppointmentHistoryPatient";
 import UpcomingBookingPatient from "../pages/role-base/patient/UpcomingBookingPatient";
 import ManageAppointmentsDoctor from "../pages/role-base/doctor/ManageAppointmentsDoctor";
-import ProfileManagementDoctor from "../pages/role-base/doctor/ProfileManagementDoctor";
+import UpcomingAppointmentsDoctor from "../pages/role-base/doctor/UpcomingAppointmentsDoctor";
 
 const Router = () => {
   return (
@@ -44,8 +44,8 @@ const Router = () => {
           element={<ManageAppointmentsDoctor />}
         />
         <Route
-          path="profile-management-doctor"
-          element={<ProfileManagementDoctor />}
+          path="upcoming-appointments-doctor"
+          element={<UpcomingAppointmentsDoctor />}
         />
 
         {/* Admin Routes */}

@@ -9,7 +9,7 @@ The Doctor Appointment Website is an online platform designed to facilitate seam
 
 ## Live Links
 - **Frontend Live Link:** [DocEase Frontend](https://docease-9fa26.web.app)
-- **Backend Live Link:** [DocEase Backend](https://docease-server.vercel.app)
+- **Backend Live Link:** [DocEase Backend](https://docease-mern.vercel.app)
 
 ## Features & Functionalities
 

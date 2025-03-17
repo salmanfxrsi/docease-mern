@@ -43,6 +43,9 @@ const Navbar = () => {
           <NavLink to="/manage-appointments-doctor" className="font-medium">
             Manage Appointments
           </NavLink>
+          <NavLink to="/upcoming-appointments-doctor" className="font-medium">
+            Upcoming Appointments
+          </NavLink>
         </>
       )}
 
@@ -85,6 +88,9 @@ const Navbar = () => {
         <>
           <NavLink to="/manage-appointments-doctor" className="font-medium">
             Manage Appointments
+          </NavLink>
+          <NavLink to="/upcoming-appointments-doctor" className="font-medium">
+            Upcoming Appointments
           </NavLink>
         </>
       )}
@@ -182,7 +188,7 @@ const Navbar = () => {
             </div>
             <div
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 text-black rounded-box z-1 mt-16 w-52 py-2 px-6 shadow gap-2 -ml-16"
+              className="menu menu-sm dropdown-content bg-base-100 text-black rounded-box z-1 mt-16 w-66 py-2 px-6 shadow gap-2 -ml-16"
             >
               {privateRoutes}
               <button
