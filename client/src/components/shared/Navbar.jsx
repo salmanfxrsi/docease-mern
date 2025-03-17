@@ -19,6 +19,7 @@ const Navbar = () => {
         Doctors
       </NavLink>
 
+      {/* Patient Routes */}
       {data?.role === "patient" && (
         <>
           <NavLink to="/appointment-history" className="font-medium">
@@ -35,6 +36,17 @@ const Navbar = () => {
           </button>
         </>
       )}
+
+      {/* Doctor Routes */}
+      {data?.role === "doctor" && (
+        <>
+          <NavLink to="/manage-appointments-doctor" className="font-medium">
+            Manage Appointments
+          </NavLink>
+        </>
+      )}
+
+      {/* Admin Routes */}
       {data?.role === "admin" && (
         <>
           <NavLink to="/manage-users" className="font-medium">
@@ -65,6 +77,15 @@ const Navbar = () => {
           >
             Doctor Registration
           </button>
+        </>
+      )}
+
+      {/* Doctor Routes */}
+      {data?.role === "doctor" && (
+        <>
+          <NavLink to="/manage-appointments-doctor" className="font-medium">
+            Manage Appointments
+          </NavLink>
         </>
       )}
 

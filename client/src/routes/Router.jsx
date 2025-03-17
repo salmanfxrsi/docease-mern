@@ -11,6 +11,7 @@ import ManageUsers from "../pages/role-base/admin/ManageUsers";
 import ManageDoctorRegistration from "../pages/role-base/admin/ManageDoctorRegistration";
 import AppointmentHistoryPatient from "../pages/role-base/patient/AppointmentHistoryPatient";
 import UpcomingBookingPatient from "../pages/role-base/patient/UpcomingBookingPatient";
+import ManageAppointmentsDoctor from "../pages/role-base/doctor/ManageAppointmentsDoctor";
 
 const Router = () => {
   return (
@@ -30,12 +31,24 @@ const Router = () => {
         />
 
         {/* Patient Routes */}
-        <Route path="appointment-history" element={<AppointmentHistoryPatient />} />
+        <Route
+          path="appointment-history"
+          element={<AppointmentHistoryPatient />}
+        />
         <Route path="upcoming-booking" element={<UpcomingBookingPatient />} />
+
+        {/* Doctor Routes */}
+        <Route
+          path="manage-appointments-doctor"
+          element={<ManageAppointmentsDoctor />}
+        />
 
         {/* Admin Routes */}
         <Route path="manage-users" element={<ManageUsers />} />
-        <Route path="manage-doctor-registration" element={<ManageDoctorRegistration />} />
+        <Route
+          path="manage-doctor-registration"
+          element={<ManageDoctorRegistration />}
+        />
 
         {/* Auth Routes */}
         <Route path="/register" element={<Register />} />

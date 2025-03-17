@@ -26,7 +26,7 @@ The Doctor Appointment Website aims to provide an online platform where patients
 2.3 Doctor Features
 - User authentication (Sign up/Login) ✅
 - Profile management (name, specialty, availability, experience, etc.)
-- Approve or reject appointment requests
+- Approve or reject appointment requests ✅
 - View patient details and appointment history
 - Set availability and manage schedules
 - Receive notifications for new appointments or cancellations

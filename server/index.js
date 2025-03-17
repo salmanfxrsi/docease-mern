@@ -133,12 +133,14 @@ async function run() {
     // Get appointments
     app.get("/appointments", async (req, res) => {
       try {
-        const { isCompleted, status, patientId, doctorId } = req.query;
-        const query = {};
+        const { isCompleted, status, patientId, doctorId, doctorEmail } = req.query;
+        let query = {};
 
         if (status) query.status = status;
 
         if (patientId) query.patientId = patientId;
+        
+        if (doctorEmail) query.doctorEmail = doctorEmail;
 
         if (doctorId) query.doctorId = doctorId;
 
@@ -153,6 +155,38 @@ async function run() {
         res.send(appointments);
       } catch (error) {
         res.status(500).send({ message: "Internal server error", error });
+      }
+    });
+
+    // Change status of a appointment
+    app.patch("/appointments/status/:id", async (req, res) => {
+      try {
+        const { id } = req.params;
+        const { status } = req.query;
+
+        if (!ObjectId.isValid(id)) {
+          return res.status(400).json({ error: "Invalid appointment ID format" });
+        }
+
+        if (!status) {
+          return res.status(400).json({ error: "Status is required" });
+        }
+
+        const query = { _id: new ObjectId(id) };
+        const updateStatus = {
+          $set: { status },
+        };
+
+        const result = await appointmentCollection.updateOne(query, updateStatus);
+
+        if (result.matchedCount === 0) {
+          return res.status(404).json({ error: "Appointment not found" });
+        }
+
+        res.json({ message: "Appointment role updated successfully", result });
+      } catch (error) {
+        console.error("Error updating appointment role:", error);
+        res.status(500).json({ error: "Internal server error" });
       }
     });
 

@@ -65,7 +65,7 @@ const UpcomingBookingPatient = () => {
             </thead>
             <tbody>
               {appointmentData.map((appointment, index) => (
-                <tr key={appointment.doctorId}>
+                <tr key={appointment._id}>
                   <td className="font-bold">{index + 1}</td>
                   <td>
                     <Avatar
