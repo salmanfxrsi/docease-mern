@@ -6,9 +6,11 @@ import Avatar from "../../../components/Avatar";
 import PatientReportModal from "../../../components/modals/PatientReportModal";
 import { useState } from "react";
 import { Link } from "react-router";
+import ReviewDoctorModal from "../../../components/modals/ReviewDoctorModal";
 
 const AppointmentHistoryPatient = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
 
   const axiosPublic = useAxiosPublic();
@@ -80,7 +82,10 @@ const AppointmentHistoryPatient = () => {
                     </button>
                   </td>
                   <td>
-                    <button className="bg-teal-600 uppercase text-white px-6 py-1 rounded-lg font-medium cursor-pointer">
+                    <button className="bg-teal-600 uppercase text-white px-6 py-1 rounded-lg font-medium cursor-pointer" onClick={() => {
+                        setSelectedAppointment(appointment);
+                        setIsReviewModalOpen(true);
+                      }}>
                       Review Doctor
                     </button>
                   </td>
@@ -93,6 +98,15 @@ const AppointmentHistoryPatient = () => {
         <h1 className="text-2xl text-center font-medium uppercase pt-24">
           No Appointments Found
         </h1>
+      )}
+
+      {/* Report Modal */}
+      {selectedAppointment && (
+        <ReviewDoctorModal
+          isReviewModalOpen={isReviewModalOpen}
+          setIsReviewModalOpen={setIsReviewModalOpen}
+          appointmentData={selectedAppointment}
+        />
       )}
 
       {/* Report Modal */}

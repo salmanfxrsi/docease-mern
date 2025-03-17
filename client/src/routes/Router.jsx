@@ -13,6 +13,9 @@ import AppointmentHistoryPatient from "../pages/role-base/patient/AppointmentHis
 import UpcomingBookingPatient from "../pages/role-base/patient/UpcomingBookingPatient";
 import ManageAppointmentsDoctor from "../pages/role-base/doctor/ManageAppointmentsDoctor";
 import UpcomingAppointmentsDoctor from "../pages/role-base/doctor/UpcomingAppointmentsDoctor";
+import DoctorRoutes from "./DoctorRoutes";
+import AdminRoutes from "./AdminRoutes";
+import PatientRoutes from "./PatientRoutes";
 
 const Router = () => {
   return (
@@ -34,25 +37,58 @@ const Router = () => {
         {/* Patient Routes */}
         <Route
           path="appointment-history"
-          element={<AppointmentHistoryPatient />}
+          element={
+            <PrivateRoutes>
+              <PatientRoutes>
+                <AppointmentHistoryPatient />
+              </PatientRoutes>
+            </PrivateRoutes>
+          }
         />
-        <Route path="upcoming-booking" element={<UpcomingBookingPatient />} />
+        <Route
+          path="upcoming-booking"
+          element={
+            <PrivateRoutes>
+              <PatientRoutes>
+                <UpcomingBookingPatient />
+              </PatientRoutes>
+            </PrivateRoutes>
+          }
+        />
 
         {/* Doctor Routes */}
         <Route
           path="manage-appointments-doctor"
-          element={<ManageAppointmentsDoctor />}
+          element={
+            <PrivateRoutes>
+              <DoctorRoutes>
+                <ManageAppointmentsDoctor />
+              </DoctorRoutes>
+            </PrivateRoutes>
+          }
         />
         <Route
           path="upcoming-appointments-doctor"
-          element={<UpcomingAppointmentsDoctor />}
+          element={
+            <PrivateRoutes>
+              <DoctorRoutes>
+                <UpcomingAppointmentsDoctor />
+              </DoctorRoutes>
+            </PrivateRoutes>
+          }
         />
 
         {/* Admin Routes */}
         <Route path="manage-users" element={<ManageUsers />} />
         <Route
           path="manage-doctor-registration"
-          element={<ManageDoctorRegistration />}
+          element={
+            <PrivateRoutes>
+              <AdminRoutes>
+                <ManageDoctorRegistration />
+              </AdminRoutes>
+            </PrivateRoutes>
+          }
         />
 
         {/* Auth Routes */}
