@@ -144,6 +144,7 @@ const RegisterDoctorModal = ({ isModalOpen, setIsModalOpen }) => {
                 type="url"
                 name="image"
                 id="image"
+                defaultValue={user?.photoURL}
                 className="py-2 px-3 border border-[#d1d1d1] rounded-md w-full mt-1"
                 required
               />

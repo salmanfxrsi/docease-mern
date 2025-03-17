@@ -130,6 +130,26 @@ async function run() {
       }
     });
 
+    app.get("/appointments", async (req, res) => {
+      try {
+        const { isCompleted, status, patientId, doctorId } = req.query; 
+        const query = {};
+
+        if(status === 'accepted') query.status = status;
+
+        if(patientId) query.patientId = patientId;
+
+        if(doctorId) query.doctorId = doctorId;
+
+        if(isCompleted === "true") query.isCompleted = true;
+
+        const appointments = await appointmentCollection.find(query).sort({ requestedAt: -1 }).toArray();
+        res.send(appointments);
+      } catch (error) {
+        res.status(500).send({ message: "Internal server error", error });
+      }
+    });
+
     // Post appointment
     app.post("/appointments", async (req, res) => {
       try {
@@ -158,12 +178,10 @@ async function run() {
         const response = await doctorCollection.insertOne(doctorInfo);
 
         if (response.acknowledged) {
-          return res
-            .status(201)
-            .json({
-              message: "Request send successfully",
-              doctorId: response.insertedId,
-            });
+          return res.status(201).json({
+            message: "Request send successfully",
+            doctorId: response.insertedId,
+          });
         } else {
           return res.status(500).json({ message: "Failed to add doctor" });
         }
@@ -177,29 +195,33 @@ async function run() {
       try {
         const { id } = req.params;
         const { status, userId } = req.query;
-    
+
         if (!id || !status) {
-          return res.status(400).json({ error: "Missing required parameters." });
+          return res
+            .status(400)
+            .json({ error: "Missing required parameters." });
         }
-    
+
         const doctorQuery = { _id: new ObjectId(id) };
         const updateStatus = { $set: { status } };
-    
-        const response = await doctorCollection.updateOne(doctorQuery, updateStatus);
-    
+
+        const response = await doctorCollection.updateOne(
+          doctorQuery,
+          updateStatus
+        );
+
         if (status === "accepted" && userId) {
           const userQuery = { _id: new ObjectId(userId) };
           const updateRole = { $set: { role: "doctor" } };
           await userCollection.updateOne(userQuery, updateRole);
         }
-    
+
         res.json(response);
       } catch (error) {
         console.error("Error updating doctor request:", error);
         res.status(500).json({ error: "Internal Server Error" });
       }
     });
-    
 
     // Get pending doctors
     app.get("/doctors/pending", async (req, res) => {
